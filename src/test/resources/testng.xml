@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Enterprise Playwright Test Suite" parallel="methods" thread-count="4">
+    
+    <parameter name="environment" value="qa"/>
+    <parameter name="browser" value="chromium"/>
+    <parameter name="headless" value="true"/>
+
+    <!-- Smoke Tests Suite -->
+    <test name="Smoke Tests" enabled="true">
+        <classes>
+            <class name="com.enterprise.automation.tests.LoginTests">
+                <methods>
+                    <include name="testLoginWithValidCredentials"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <!-- Regression Tests Suite -->
+    <test name="Regression Tests" enabled="true">
+        <classes>
+            <class name="com.enterprise.automation.tests.LoginTests"/>
+            <class name="com.enterprise.automation.tests.DashboardTests"/>
+        </classes>
+    </test>
+
+    <!-- Parallel Execution Suite -->
+    <test name="Parallel Tests" enabled="true" parallel="methods" thread-count="4">
+        <classes>
+            <class name="com.enterprise.automation.tests.LoginTests"/>
+            <class name="com.enterprise.automation.tests.DashboardTests"/>
+        </classes>
+    </test>
+
+    <!-- Listeners -->
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
+</suite>

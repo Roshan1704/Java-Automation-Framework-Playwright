@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Smoke Tests" parallel="methods" thread-count="2">
+    
+    <test name="Smoke Test - Login">
+        <classes>
+            <class name="com.enterprise.automation.tests.LoginTests">
+                <methods>
+                    <include name="testLoginWithValidCredentials"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+        <listener class-name="com.enterprise.automation.listener.TestListener"/>
+    </listeners>
+</suite>

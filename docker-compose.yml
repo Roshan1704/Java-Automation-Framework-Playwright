@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  playwright-tests-chromium:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      BROWSER: chromium
+      ENVIRONMENT: qa
+      HEADLESS: 'true'
+    volumes:
+      - ./target/allure-results:/app/target/allure-results
+      - ./target/screenshots:/app/target/screenshots
+      - ./target/traces:/app/target/traces
+    networks:
+      - test-network
+
+  playwright-tests-firefox:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      BROWSER: firefox
+      ENVIRONMENT: qa
+      HEADLESS: 'true'
+    volumes:
+      - ./target/allure-results:/app/target/allure-results
+      - ./target/screenshots:/app/target/screenshots
+      - ./target/traces:/app/target/traces
+    networks:
+      - test-network
+
+  allure-server:
+    image: frankescobar/allure-docker-service:latest
+    ports:
+      - "4040:4040"
+      - "4041:4041"
+    volumes:
+      - ./target/allure-results:/app/allure-results
+      - allure-reports:/app/default-reports-root
+    networks:
+      - test-network
+
+networks:
+  test-network:
+    driver: bridge
+
+volumes:
+  allure-reports:

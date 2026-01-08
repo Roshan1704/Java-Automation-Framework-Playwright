@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: playwright-tests
+  namespace: default
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: playwright-tests
+  template:
+    metadata:
+      labels:
+        app: playwright-tests
+    spec:
+      serviceAccountName: playwright-tests
+      containers:
+      - name: playwright
+        image: enterprise-playwright:latest
+        imagePullPolicy: Always
+        env:
+        - name: ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: playwright-config
+              key: environment
+        - name: API_AUTH_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: playwright-secrets
+              key: api-token
+        - name: API_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: playwright-secrets
+              key: api-username
+        - name: API_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: playwright-secrets
+              key: api-password
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "2000m"
+        volumeMounts:
+        - name: results
+          mountPath: /app/target/allure-results
+        - name: screenshots
+          mountPath: /app/target/screenshots
+      volumes:
+      - name: results
+        emptyDir: {}
+      - name: screenshots
+        emptyDir: {}

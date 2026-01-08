@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: playwright-config
+  namespace: default
+data:
+  environment: "qa"
+  browser: "chromium"
+  headless: "true"
+  parallel.tests: "4"

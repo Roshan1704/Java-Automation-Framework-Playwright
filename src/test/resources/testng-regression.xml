@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Regression Tests" parallel="methods" thread-count="4">
+    
+    <test name="Regression - Authentication">
+        <classes>
+            <class name="com.enterprise.automation.tests.LoginTests"/>
+        </classes>
+    </test>
+
+    <test name="Regression - Dashboard">
+        <classes>
+            <class name="com.enterprise.automation.tests.DashboardTests"/>
+        </classes>
+    </test>
+
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+        <listener class-name="com.enterprise.automation.listener.TestListener"/>
+    </listeners>
+</suite>
